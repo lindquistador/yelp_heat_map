@@ -2,6 +2,7 @@ import csv
 import json
 from pprint import pprint
 import os
+#outpusts data for heat map
 
 
 def readCityData(filename, txt_file):
@@ -31,6 +32,7 @@ def readCityData(filename, txt_file):
 if __name__ == '__main__':
 	filename = "city_yelp_jsons/WA/Aberdeen Gardens, WA_data.json"
 	state = 'WA'
+	os.chdir("..")
 	directory = 'city_yelp_jsons/'+state+'/'
 	print(directory)
 	exists = os.path.exists(directory)
