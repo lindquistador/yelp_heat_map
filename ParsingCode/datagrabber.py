@@ -27,15 +27,15 @@ import os
 # This client code can run on Python 2.x or 3.x.  Your imports can be
 # simpler if you only need one of those.
 try:
-    # For Python 3.0 and later
-    from urllib.error import HTTPError
-    from urllib.parse import quote
-    from urllib.parse import urlencode
+	# For Python 3.0 and later
+	from urllib.error import HTTPError
+	from urllib.parse import quote
+	from urllib.parse import urlencode
 except ImportError:
-    # Fall back to Python 2's urllib2 and urllib
-    from urllib2 import HTTPError
-    from urllib import quote
-    from urllib import urlencode
+	# Fall back to Python 2's urllib2 and urllib
+	from urllib2 import HTTPError
+	from urllib import quote
+	from urllib import urlencode
 
 
 # Yelp Fusion no longer uses OAuth as of December 7, 2017.
@@ -59,147 +59,158 @@ SEARCH_LIMIT = 50
 
 
 def request(host, path, api_key, url_params=None):
-    """Given your API_KEY, send a GET request to the API.
-    Args:
-        host (str): The domain host of the API.
-        path (str): The path of the API after the domain.
-        API_KEY (str): Your API Key.
-        url_params (dict): An optional set of query parameters in the request.
-    Returns:
-        dict: The JSON response from the request.
-    Raises:
-        HTTPError: An error occurs from the HTTP request.
-    """
-    url_params = url_params or {}
-    url = '{0}{1}'.format(host, quote(path.encode('utf8')))
-    headers = {
-        'Authorization': 'Bearer %s' % api_key,
-    }
+	"""Given your API_KEY, send a GET request to the API.
+	Args:
+		host (str): The domain host of the API.
+		path (str): The path of the API after the domain.
+		API_KEY (str): Your API Key.
+		url_params (dict): An optional set of query parameters in the request.
+	Returns:
+		dict: The JSON response from the request.
+	Raises:
+		HTTPError: An error occurs from the HTTP request.
+	"""
+	url_params = url_params or {}
+	url = '{0}{1}'.format(host, quote(path.encode('utf8')))
+	headers = {
+		'Authorization': 'Bearer %s' % api_key,
+	}
 
-    print(u'Querying {0} ...'.format(url))
+	print(u'Querying {0} ...'.format(url))
 
-    response = requests.request('GET', url, headers=headers, params=url_params)
+	response = requests.request('GET', url, headers=headers, params=url_params)
 
-    return response.json()
+	return response.json()
 
 
 def search(api_key, term, location):
-    """Query the Search API by a search term and location.
-    Args:
-        term (str): The search term passed to the API.
-        location (str): The search location passed to the API.
-    Returns:
-        dict: The JSON response from the request.
-    """
+	"""Query the Search API by a search term and location.
+	Args:
+		term (str): The search term passed to the API.
+		location (str): The search location passed to the API.
+	Returns:
+		dict: The JSON response from the request.
+	"""
 
-    url_params = {
-        'term': term.replace(' ', '+'),
-        'location': location.replace(' ', '+'),
-        'limit': SEARCH_LIMIT
-    }
-    return request(API_HOST, SEARCH_PATH, api_key, url_params=url_params)
+	url_params = {
+		'term': term.replace(' ', '+'),
+		'location': location.replace(' ', '+'),
+		'limit': SEARCH_LIMIT
+	}
+	return request(API_HOST, SEARCH_PATH, api_key, url_params=url_params)
 
 
 def get_business(api_key, business_id):
-    """Query the Business API by a business ID.
-    Args:
-        business_id (str): The ID of the business to query.
-    Returns:
-        dict: The JSON response from the request.
-    """
-    business_path = BUSINESS_PATH + business_id
+	"""Query the Business API by a business ID.
+	Args:
+		business_id (str): The ID of the business to query.
+	Returns:
+		dict: The JSON response from the request.
+	"""
+	business_path = BUSINESS_PATH + business_id
 
-    return request(API_HOST, business_path, api_key)
+	return request(API_HOST, business_path, api_key)
 
 
 def query_api(term, location):
-    """Queries the API by the input values from the user.
-    Args:
-        term (str): The search term to query.
-        location (str): The location of the business to query.
-    """
-    state = location.split(',')[1].strip()
-    directory = 'city_yelp_jsons/'+state+'/'
-    if not os.path.exists(directory):
-    	os.makedirs(directory)
-    print(state, ' : ',term, location)
-    #x = input()
-    response = search(API_KEY, term, location)
+	"""Queries the API by the input values from the user.
+	Args:
+		term (str): The search term to query.
+		location (str): The location of the business to query.
+	"""
+	state = location.split(',')[1].strip()
+	directory = 'city_yelp_jsons/'+state+'/'
+	if not os.path.exists(directory):
+		os.makedirs(directory)
+	print(state, ' : ',term, location)
+	#x = input()
+	response = search(API_KEY, term, location)
 
-    with open('city_yelp_jsons/'+state+'/'+location+'_data.json', 'w') as outfile:  
-    	json.dump(response, outfile)
+	with open('city_yelp_jsons/'+state+'/'+location+'_data.json', 'w') as outfile:  
+		json.dump(response, outfile)
 
-    businesses = response.get('businesses')
+	businesses = response.get('businesses')
 
-    if not businesses:
-        print(u'No businesses for {0} in {1} found.'.format(term, location))
-        return
+	if not businesses:
+		print(u'No businesses for {0} in {1} found.'.format(term, location))
+		return
 
-    business_id = businesses[0]['id']
+	business_id = businesses[0]['id']
 
-    # print(u'{0} businesses found, querying business info ' \
-    #     'for the top result "{1}" ...'.format(
-    #         len(businesses), business_id))
-    response = get_business(API_KEY, business_id)
+	# print(u'{0} businesses found, querying business info ' \
+	#     'for the top result "{1}" ...'.format(
+	#         len(businesses), business_id))
+	response = get_business(API_KEY, business_id)
 
-    #print(u'Result for business "{0}" found:'.format(business_id))
-    #pprint.pprint(response, indent=2)
+	#print(u'Result for business "{0}" found:'.format(business_id))
+	#pprint.pprint(response, indent=2)
 
 
 def main():
-    parser = argparse.ArgumentParser()
+	parser = argparse.ArgumentParser()
 
-    parser.add_argument('-q', '--term', dest='term', default=DEFAULT_TERM,
-                        type=str, help='Search term (default: %(default)s)')
-    parser.add_argument('-l', '--location', dest='location',
-                        default=DEFAULT_LOCATION, type=str,
-                        help='Search location (default: %(default)s)')
+	parser.add_argument('-q', '--term', dest='term', default=DEFAULT_TERM,
+						type=str, help='Search term (default: %(default)s)')
+	parser.add_argument('-l', '--location', dest='location',
+						default=DEFAULT_LOCATION, type=str,
+						help='Search location (default: %(default)s)')
 
-    input_values = parser.parse_args()
+	input_values = parser.parse_args()
 
-    term = 'food'
-    with open("citydata/result.csv","rb") as source:
-    	rdr= csv.reader( source )
-    	c = 0
-    	for r in rdr:
-    		if c == 0: 
-    			c+=1
-    			continue
-    		if r[1] == 'WA':
-    			print("yay washington")
-    		# 	#print('Only using WA and OR')
-    		# 	continue
-    		
-	    		print(r)
-	    		location = r[0]+ ', '+ r[1]
+	term = 'food'
+	os.chdir("..")
+	read = False
+	print("In the main", os.getcwd())
+	with open("citydata/result.csv","rb") as source:
+		rdr= csv.reader( source )
+		c = 0
+		print("file was real")
+		for r in rdr:
+			if c == 0: 
+				c+=1
+				continue
+			if r[1] == 'NV':
+				# if r[0] == 'Bray':
+				#     read = True
 
-	    		print(location)
-	    		try:
-	    			query_api(term, location)
-	    		except HTTPError as error:
-	    			sys.exit('Abort prgam http error')
+				if r[0] == 'San Gregorio':
+					print("Was bray")
+					read = True
 
-	    		c += 1
-    		if c>869:
-    			print('Danger of exceeding API Limit!!')
-    			break
+				if read == False:
+					continue
 
-    return 0
-    #x = input()
+				print('read ', read)
+				print(r)
+				location = r[0]+ ', '+ r[1]
 
-    location = 'San Francisco, CA'
-    term = 'food'
-    try:
-        query_api(term, location)
-    except HTTPError as error:
-        sys.exit(
-            'Encountered HTTP error {0} on {1}:\n {2}\nAbort program.'.format(
-                error.code,
-                error.url,
-                error.read(),
-            )
-        )
+				print(location)
+				try:
+					query_api(term, location)
+				except HTTPError as error:
+					sys.exit('Abort prgam http error')
+
+				c += 1
+			if c>4000:
+				print('Danger of exceeding API Limit!!')
+				break
+
+	return 0
+	#x = input()
+
+	location = 'San Francisco, CA'
+	term = 'food'
+	try:
+		query_api(term, location)
+	except HTTPError as error:
+		sys.exit(
+			'Encountered HTTP error {0} on {1}:\n {2}\nAbort program.'.format(
+				error.code,
+				error.url,
+				error.read(),
+			)
+		)
 
 
 if __name__ == '__main__':
-    main()
+	main()

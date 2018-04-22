@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <script src="node_modules/papaparse/papaparse.js"></script>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <title>Heatmaps</title>
     <style>
       /* Always set the map height explicitly to define the size of the div
@@ -99,28 +100,45 @@
       function changeOpacity() {
         heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
       }
+      
 
-      var csvString = "city_yelp_jsons/Aberdeens Garders,WA.csv.txt"
-      var data = Papa.parse(csvString);
+      // reader.readAsText(file, 'txt');
+      //var files = fileInput.files;
+      //console.log('files ', files)
+
+      var points = [];
+
+      var client = new XMLHttpRequest();
+      client.open('GET', '/state_yelp_txts/allstates.txt');
+      client.onreadystatechange = function() {
+        //alert(client.responseText);
+        csv = client.responseText
+        //console.log(csv)
+        data = Papa.parse(csv, {
+          worker: true,
+          dynamicTyping: true,
+          step: function(row) {
+            //console.log("Row:", row.data[0][0]);
+            var r = row.data[0]
+
+            points.push(new google.maps.LatLng(r[0], r[1]));
+          },
+          complete: function() {
+            console.log("All done!");
+          }
+        });
+
+        //console.log(data)
+      }
+      client.send();
+
+
 
       // Heatmap data: 500 Points
       function getPoints() {
 
-        return [
-          new google.maps.LatLng(37.782551, -122.445368),
-          new google.maps.LatLng(37.782745, -122.444586),
-          new google.maps.LatLng(37.782842, -122.443688),
-          new google.maps.LatLng(37.782919, -122.442815),
-          new google.maps.LatLng(37.782992, -122.442112),
-          new google.maps.LatLng(37.783100, -122.441461),
-          new google.maps.LatLng(37.783206, -122.440829),
-          new google.maps.LatLng(37.783273, -122.440324),
-          new google.maps.LatLng(37.783316, -122.440023),
-          new google.maps.LatLng(37.783357, -122.439794),
-          new google.maps.LatLng(37.783371, -122.439687),
-          new google.maps.LatLng(37.783368, -122.439666),
-          new google.maps.LatLng(37.783383, -122.439594)
-          ];
+
+        return points;
       }
     </script>
     <script async defer

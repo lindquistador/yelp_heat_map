@@ -25,25 +25,34 @@ def readCityData(filename, txt_file):
 		#print(longi)
 		#print('coords', b['coordinates'])
 		x = "{location: new google.maps.LatLng("+str(lat)+","+str(longi)+"),weight:"+str(review_count)+"},"
+		x = str(lat)+','+str(longi)+','+ str(review_count)
 		#print('#reviews', b['review_count'])
 		txt_file.write(x)
 		txt_file.write('\n')
 
 if __name__ == '__main__':
-	filename = "city_yelp_jsons/WA/Aberdeen Gardens, WA_data.json"
-	state = 'WA'
+	#filename = "city_yelp_jsons/WA/Aberdeen Gardens, WA_data.json"
+	state = 'OR'
 	os.chdir("..")
-	directory = 'city_yelp_jsons/'+state+'/'
-	print(directory)
-	exists = os.path.exists(directory)
-	txtdir = "state_yelp_txts/"
-	state_file = state+"_heatmap.txt"
-	f = open(txtdir+state_file,"wb")
-	if exists:
-		for i,filename in enumerate(os.listdir(directory)):
-			print(filename)
-			if(False):
-				print("break for now")
-				break
+	state_directory = 'city_yelp_jsons/'
 
-			readCityData(directory + filename, f)
+	states = os.listdir(state_directory)
+	print(states)
+	txtdir = "state_yelp_txts/allstates.txt"
+	f = open(txtdir,"wb")
+	for state in states:
+		directory = 'city_yelp_jsons/' + state + '/'
+		print(state)
+		print(directory)
+		exists = os.path.exists(directory)
+		
+		state_file = state+"_heatmap.txt"
+		
+		if exists:
+			for i,filename in enumerate(os.listdir(directory)):
+				#print(filename)
+				if(False):
+					print("break for now")
+					break
+
+				readCityData(directory + filename, f)
