@@ -6,11 +6,11 @@ import os
 
 
 def readCityData(filename, txt_file):
-	print("helloworld")
+	#print("helloworld")
 	
 	data = json.load(open(filename))
-	pprint(data['region'])
-	pprint(data['total'])
+	#pprint(data['region'])
+	#pprint(data['total'])
 	businesses = data['businesses']
 	#txt_f = filename.strip('.json')+".txt"
 
@@ -24,7 +24,7 @@ def readCityData(filename, txt_file):
 		#print(lat)
 		#print(longi)
 		#print('coords', b['coordinates'])
-		x = "{location: new google.maps.LatLng("+str(lat)+","+str(longi)+"),weight:"+str(review_count)+"},"
+		#x = "{location: new google.maps.LatLng("+str(lat)+","+str(longi)+"),weight:"+str(review_count)+"},"
 		x = str(lat)+','+str(longi)+','+ str(review_count)
 		#print('#reviews', b['review_count'])
 		txt_file.write(x)
@@ -32,7 +32,7 @@ def readCityData(filename, txt_file):
 
 if __name__ == '__main__':
 	#filename = "city_yelp_jsons/WA/Aberdeen Gardens, WA_data.json"
-	state = 'OR'
+	#state = 'OR'
 	os.chdir("..")
 	state_directory = 'city_yelp_jsons/'
 
@@ -41,12 +41,14 @@ if __name__ == '__main__':
 	txtdir = "state_yelp_txts/allstates.txt"
 	f = open(txtdir,"wb")
 	for state in states:
+		# if state == 'CA' or state == 'OR':
+		# 	continue
 		directory = 'city_yelp_jsons/' + state + '/'
 		print(state)
 		print(directory)
 		exists = os.path.exists(directory)
 		
-		state_file = state+"_heatmap.txt"
+		#state_file = state+"_heatmap.txt"
 		
 		if exists:
 			for i,filename in enumerate(os.listdir(directory)):
