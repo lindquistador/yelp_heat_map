@@ -159,23 +159,25 @@ def main():
 
 	term = 'food'
 	os.chdir("..")
-	read = False
+	read = True
 	print("In the main", os.getcwd())
 	with open("citydata/result.csv","rb") as source:
 		rdr= csv.reader( source )
 		c = 0
 		print("file was real")
 		for r in rdr:
+			print(r)
 			if c == 0: 
 				c+=1
 				continue
-			if r[1] == 'NV':
+			if r[1] == 'AZ':
+
 				# if r[0] == 'Bray':
 				#     read = True
 
-				if r[0] == 'San Gregorio':
-					print("Was bray")
-					read = True
+				# if r[0] == 'San Gregorio':
+				# 	print("Was bray")
+				# 	read = True
 
 				if read == False:
 					continue
