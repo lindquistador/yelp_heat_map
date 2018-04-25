@@ -6,7 +6,7 @@ import os
 
 
 def readCityData(filename, txt_file):
-	#print("helloworld")
+	print(filename)
 	
 	data = json.load(open(filename))
 	#pprint(data['region'])
@@ -21,6 +21,9 @@ def readCityData(filename, txt_file):
 		lat = coords['latitude']
 		longi = coords['longitude']
 		review_count = b['review_count']
+
+		if str(lat) == None or str(longi) == None:
+			continue
 		#print(lat)
 		#print(longi)
 		#print('coords', b['coordinates'])

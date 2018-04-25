@@ -44,6 +44,9 @@ except ImportError:
 # You can find it on
 # https://www.yelp.com/developers/v3/manage_app
 API_KEY= 'zWqP5bHYTTidgLt1ny2euJeMUIDcHXRSsYUvCAGQfI7CLAIjANV0-kiXG2QO1531Mj1H9KjdJFtTRQx-5Tc_XOOh77BYIKHprO5pGW8dPfN-xd37zwhvhX819MHOWnYx'
+API_KEY = 'REIjFy3Op9192mxYSiIwS093jW0XroAat-s2BRP03mUQGDXIJomwLJFJ3a-EG90IGWQ6q8YZN0XTLqvHggsqnZAcfw6ySDgnwbggY4z9Z_Mx6rUjtPq6mcs8H2DfWnYx'
+#emma's key
+API_KEY = 'Lj1tXeRhPSIqAolUFETPfmnTI77hrhh1ZPQnErKlEi2J3CFPs6dQ2U2H7lsb9EJsCfpLTX0g1HORn2N_nHjX6eGDiRAPNPaI7UbbBOkFgnsAhCSKQg4L35BgNZvfWnYx'
 
 
 # API constants, you shouldn't have to change these.
@@ -170,7 +173,7 @@ def main():
 			if c == 0: 
 				c+=1
 				continue
-			if r[1] == 'AZ':
+			if r[1] == 'ND':
 
 				# if r[0] == 'Bray':
 				#     read = True

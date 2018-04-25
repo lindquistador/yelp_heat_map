@@ -42,13 +42,6 @@
     </style>
   </head>
   <body>
-    <div id="floating-panel">
-      <button onclick="toggleHeatmap()">Toggle Heatmap</button>
-      <button onclick="changeGradient()">Change gradient</button>
-      <button onclick="changeRadius()">Change radius</button>
-      <button onclick="changeOpacity()">Change opacity</button>
-    </div>
-    <div id="map"></div>   
     <script>
 
       // This example requires the Visualization library. Include the libraries=visualization
@@ -59,9 +52,9 @@
 
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 13,
-          center: {lat: 37.775, lng: -122.434},
-          mapTypeId: 'satellite'
+          zoom: 7,
+          center: {lat: 47.52986, lng: -122.434}
+          //mapTypeId: 'map'
         });
 
         heatmap = new google.maps.visualization.HeatmapLayer({
@@ -141,6 +134,14 @@
         return points;
       }
     </script>
+    <div id="floating-panel">
+      <button onclick="toggleHeatmap()">Toggle Heatmap</button>
+      <button onclick="changeGradient()">Change gradient</button>
+      <button onclick="changeRadius()">Change radius</button>
+      <button onclick="changeOpacity()">Change opacity</button>
+    </div>
+    <div id="map"></div>   
+    
     <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBS0u1yx6mWGpkdk8UBHjrpBWzo0ZXp6O4&libraries=visualization&callback=initMap">
     </script>
