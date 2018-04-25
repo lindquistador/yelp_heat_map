@@ -49,6 +49,14 @@ API_KEY = 'REIjFy3Op9192mxYSiIwS093jW0XroAat-s2BRP03mUQGDXIJomwLJFJ3a-EG90IGWQ6q
 API_KEY = 'Lj1tXeRhPSIqAolUFETPfmnTI77hrhh1ZPQnErKlEi2J3CFPs6dQ2U2H7lsb9EJsCfpLTX0g1HORn2N_nHjX6eGDiRAPNPaI7UbbBOkFgnsAhCSKQg4L35BgNZvfWnYx'
 
 
+"""
+
+Henry's ID: K6wZCdIRSuuX8dFB2X7Vlw
+
+Henry's Key: 8aXhWfVtm8WNML8Iog_7ZdfUTikBczTcHuthgFw-1MofAu6g0kEWzAc2YOx9o3KbLmfEiArRcgWqR_nOonkIJIg3s6R9oBzw0Bn7afzCnoJIQc7o37O-601oTcvcWnYx
+
+"""
+
 # API constants, you shouldn't have to change these.
 API_HOST = 'https://api.yelp.com'
 SEARCH_PATH = '/v3/businesses/search'
